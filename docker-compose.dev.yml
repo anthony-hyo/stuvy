@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+
+  postgresql:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 321
+      POSTGRES_DB: stuvy
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - stuvy-net
+
+  backend:
+    image: eclipse-temurin:21-jdk
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgresql:5432/stuvy
+      DB_USER: root
+      DB_PASSWORD: 321
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgresql
+    networks:
+      - stuvy-net
+    command: ["java", "-jar", "/app/app.jar"]
+
+  frontend:
+    image: node:latest
+    ports:
+      - "4200:4200"
+    environment:
+      API_URL: http://backend:8080
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    networks:
+      - stuvy-net
+    command: ["sh", "-c", "cd /app && npm install && npm start"]
+
+networks:
+  stuvy-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
