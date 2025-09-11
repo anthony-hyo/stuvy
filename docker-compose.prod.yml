@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
 
   postgresql:
@@ -13,9 +11,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - stuvy-net
-
+  
   backend:
-    image: eclipse-temurin:21-jdk
+    image: eclipse-temurin:24-jdk
     ports:
       - "8080:8080"
     environment:
@@ -23,15 +21,16 @@ services:
       DB_USER: root
       DB_PASSWORD: 321
     volumes:
-      - ./backend:/app
+      - ./backend:/backend
     depends_on:
       - postgresql
     networks:
       - stuvy-net
-    command: ["java", "-jar", "/app/app.jar"]
+    working_dir: /backend
+    command: ["java", "-jar", "app.jar"]
 
   frontend:
-    image: nginx:alpine
+    image: nginx:latest
     ports:
       - "80:80"
     volumes:
