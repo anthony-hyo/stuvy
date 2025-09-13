@@ -22,13 +22,6 @@ RUN echo 'server { \
     location / { \
         try_files $uri $uri/ /index.html; \
     } \
-    \
-    # API proxy (optional - para evitar CORS em dev) \
-    location /api/ { \
-        proxy_pass $API_URL; \
-        proxy_set_header Host $host; \
-        proxy_set_header X-Real-IP $remote_addr; \
-    } \
 }' > /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
