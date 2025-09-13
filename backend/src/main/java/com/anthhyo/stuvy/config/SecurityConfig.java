@@ -28,10 +28,13 @@ public class SecurityConfig {
 
 			.authorizeHttpRequests(auth -> auth
 				// Non-Authenticate
-				.requestMatchers("/api/auth/**").permitAll()
-				.requestMatchers("/api/public/**").permitAll()
-				.requestMatchers("/", "/d").permitAll()
-				.requestMatchers("/health", "/actuator/**").permitAll()
+				.requestMatchers(
+					"/",
+					"/api/auth/**",
+					"/api/public/**",
+					"/health", 
+					"/actuator/**"
+				).permitAll()
 
 				// Required Authenticate
 				.anyRequest().authenticated()
