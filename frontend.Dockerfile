@@ -3,6 +3,7 @@ WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend/ ./
+RUN npm run build --prod
 
 FROM nginx:alpine
 COPY --from=build /app/dist/stuvy/browser /usr/share/nginx/html
