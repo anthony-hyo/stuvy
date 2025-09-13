@@ -35,11 +35,6 @@ public class SecurityConfig {
 
 				// Required Authenticate
 				.anyRequest().authenticated()
-			)
-
-			.authorizeHttpRequests(auth -> auth
-				.requestMatchers("/api/auth/**").permitAll()
-				.anyRequest().authenticated()
 			);
 
 		// TODO: Validate JWT
