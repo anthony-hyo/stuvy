@@ -41,8 +41,6 @@ services:
       - ./frontend:/frontend
     depends_on:
       - backend
-    networks:
-      - stuvy-net
     command: ["sh", "-c", "cd /frontend && npm install && npm start"]
 
 networks:

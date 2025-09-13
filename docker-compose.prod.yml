@@ -13,32 +13,24 @@ services:
       - stuvy-net
   
   backend:
-    image: eclipse-temurin:24-jdk
-    ports:
-      - "8080:8080"
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
     environment:
       DB_URL: jdbc:postgresql://postgresql:5432/stuvy
       DB_USER: root
       DB_PASSWORD: 321
-    volumes:
-      - ./backend:/backend
     depends_on:
       - postgresql
     networks:
       - stuvy-net
-    working_dir: /backend
-    command: ["java", "-jar", "app.jar"]
 
   frontend:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./frontend/dist:/usr/share/nginx/html:ro
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
     depends_on:
       - backend
-    networks:
-      - stuvy-net
 
 networks:
   stuvy-net:
