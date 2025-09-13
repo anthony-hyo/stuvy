@@ -19,7 +19,9 @@ export const routes: Routes = [
     {
         path: 'app',
         component: MainLayout,
-        canActivate: [authGuard],
+        canActivate: [
+            authGuard
+        ],
         children: [
             {
                 path: 'dashboard',
