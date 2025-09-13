@@ -1,0 +1,11 @@
+# Database Configuration
+DATABASE_URL=jdbc:postgresql://postgresql:5432/stuvy
+DATABASE_USER=your_username
+DATABASE_PASSWORD=your_secure_password
+DATABASE_DB=stuvy
+
+# API Configuration
+API_URL=http://backend:8080
+
+# Environment
+ENVIRONMENT=development
