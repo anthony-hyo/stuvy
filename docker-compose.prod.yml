@@ -1,12 +1,11 @@
 services:
-
   postgresql:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 321
-      POSTGRES_DB: stuvy
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_DB}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -17,18 +16,21 @@ services:
       context: .
       dockerfile: backend.Dockerfile
     environment:
-      DB_URL: jdbc:postgresql://postgresql:5432/stuvy
-      DB_USER: root
-      DB_PASSWORD: 321
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_DB: ${DATABASE_DB}
     depends_on:
       - postgresql
     networks:
       - stuvy-net
-
+  
   frontend:
     build:
       context: .
       dockerfile: frontend.Dockerfile
+    environment:
+      API_URL: ${API_URL:-http://backend:8080}
     depends_on:
       - backend
 
@@ -38,3 +40,4 @@ networks:
 
 volumes:
   postgres_data:
+    driver: local
